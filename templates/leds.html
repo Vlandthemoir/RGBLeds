@@ -1,0 +1,126 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-md-5">
+		<div class="card card-body">
+		
+		</div>
+	</div>
+	<div class=""></div>
+</div>
+
+
+{% with messages = get_flashed_messages()  %}
+{% if messages  %}
+{% for message in messages  %}
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	{{message}}
+ 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	</div>
+{% endfor  %}
+{% endif  %}
+{% endwith  %}
+	    <h1>Control de leds</h1>
+    <form action="/datos_leds" method="POST">
+        <div class="box">
+        <table>
+            <tbody>
+            	<tr>
+                    <td>
+                        <p><a>Led rojo</a></p>
+                    </td>
+                    <td>
+                    
+                        <input id="rinput" name="rinput" class="range redrange" type="range" max="99" value=" @@"""+ r_value +""" @@">
+   				
+                    </td>
+                    <td>
+                        <strong id="rvalue"> """+ r_value +""" </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><a>Led verde</a></p>
+                    </td>
+                    <td>
+                        <input id="ginput" name="ginput" class="range greenrange" type="range" max="99" value=" @@"""+ g_value +""" @@">
+    
+                    </td>
+                    <td>
+                        <strong id="gvalue">"""+ g_value +"""</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><a>Led azul</a></p>
+                    </td>
+                    <td>
+                        <input id="binput" name="binput" class="range bluerange" type="range" max="99" value=" @@"""+ b_value +""" @@">
+    
+                    </td>
+                    <td>
+                        <strong id="bvalue">"""+ b_value +"""</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <button class="btn btn-dark" type="submit">Guardar</button>        
+    </form>
+<div class="col-md-7">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <td>Lectura</td>
+                <td>Rojo</td>
+                <td>Verde</td>
+                <td>Azul</td>
+                <td>Fecha</td>
+                <td>Opcion</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for val in valores  %}
+                <tr>
+                    <td>{{ val.0 }}</td>
+                    <td>{{ val.1 }}</td>
+                    <td>{{ val.2 }}</td>
+                    <td>{{ val.3 }}</td>
+                    <td>{{ val.4 }}</td>
+                    <td><a href="/delete/{{val.0}}" class="btn btn-danger ">Borrar</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    var sliderr = document.getElementById("rinput");
+    var outputr = document.getElementById("rvalue");
+    outputr.innerHTML = sliderr.value;
+    sliderr.oninput = function () {
+        outputr.innerHTML = this.value;
+    }
+
+    var sliderg = document.getElementById("ginput");
+    var outputg = document.getElementById("gvalue");
+    outputg.innerHTML = sliderg.value;
+    sliderg.oninput = function () {
+        outputg.innerHTML = this.value;
+    }
+
+    var sliderb = document.getElementById("binput");
+    var outputb = document.getElementById("bvalue");
+    outputb.innerHTML = sliderb.value;
+
+    sliderb.oninput = function () {
+        outputb.innerHTML = this.value;
+    }
+
+</script>
+
+
+{% endblock%}
